@@ -4,6 +4,7 @@
 	}
 	SubShader{
 		Pass{
+			
 			CGPROGRAM
 			
 			#pragma vertex vert
@@ -27,26 +28,16 @@
 				v2f o;
 				
 				//normalDirection= normal of the vertex/(pixel)
-				float3 normalDirection =  mul( v.normal, _world2Object.xyz);
+				float3 normalDirection =   mul( v.normal,_World2Object).xyz;
 				
 				//lightDirection=light direction
 				float3 lightDirection = _WorldSpaceLightPos0.xyz;
+				
 				//diffuseReflection= _LightColor0 * dot(normalDirection, lightDirection);
-				float3 diffuseReflection = _LightColor0 * dot(normalDirection, lightDirection.xyz);
+				float3 diffuseReflection =_Color* _LightColor0 * dot(normalDirection, lightDirection);
 				
-				//built in variables
-				//normalize ()
-				// _World2Object
-				// _WorldSpaceLightPos0
-				// _LightColor0
-				
-				//built in functions
-				//dot(lightDirection, nomral);
-				
-				//return the diffuseReflection
-				return diffuseReflection;
-				//always has to be added convetrs into unity into Martrix Mvp
-				//o.color = float4(v.normal, 1);
+
+				o.color = float4(diffuseReflection, 1);
 				o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
 				return o;
 			}
