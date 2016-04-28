@@ -20,6 +20,7 @@
 		
 			//input
 			struct appdata{
+				
 				float4 vertex : POSITION;
 				float4 texcoord : TEXCOORD0;
 				
@@ -30,7 +31,7 @@
 				float4 vertex : SV_POSITION;
 				float2 tex : TEXCOORD0;
 				float2 uv :TEXCOORD1;
-				
+	
 			};
 			//vertex shader program/function
 			v2f vert(appdata v){
@@ -43,8 +44,10 @@
 			
 			float4 frag (v2f i): COLOR {
 				float4 textureColor = tex2D(_MainTex, i.tex.xy * _MainTex_ST.xy + _MainTex_ST.zw);
-			
-				float2 uv = i.uv;
+				
+
+
+				float2 uv = i.uv / float2(1,1).xy - 0.5;
 				float l = length(uv);
 				float a = _Time.y * 0.5;
 				uv = mul(float2x2(cos(a),sin(a),-sin(a),cos(a) ),uv);
