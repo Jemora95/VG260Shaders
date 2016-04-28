@@ -48,9 +48,13 @@
 				float l = length(uv);
 				float a = _Time.y * 0.5;
 				uv = mul(float2x2(cos(a),sin(a),-sin(a),cos(a) ),uv);
-				float r = float2(atan2(uv.y, uv.x) * 0.05, 1).x;
+				float r = tex2D( _MainTex, atan2(uv.y, uv.x) * 0.5).x;
+				r = max (r , tex2D (_MainTex, pow (l, 0.25) * 0.2 - _Time.y * 0.02).x);
+				float col = pow(r*(0.35 + l * 0.7),2.5);
+				float4 fragColor = (col * 1.5);
 
-				return float4(1,1,1,1);
+
+				return fragColor;
 			}
 			
 			
@@ -58,6 +62,4 @@
 		}
 	}
 	
-	//comment out during development
-	//Fallback"diffuse"
 }
